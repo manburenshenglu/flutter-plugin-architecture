@@ -1,0 +1,2 @@
+SessionReadable|sessionReadable|packages/shared/lib/src/contracts/session_readable.dart
+ProfileReadable|profileReadable|packages/shared/lib/src/contracts/profile_readable.dart

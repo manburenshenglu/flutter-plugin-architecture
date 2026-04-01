@@ -1,0 +1,26 @@
+# Flutter / Dart build artifacts
+.dart_tool/
+.packages
+.pub/
+build/
+coverage/
+
+# Tooling caches
+.melos_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE and OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Local env / logs
+.env
+.env.*
+*.log
+
+# Project-local AI/agent notes
+AGENT.md
+AGENTS.md

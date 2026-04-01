@@ -1,0 +1,35 @@
+name: app_consumer
+description: Consumer-facing app shell assembled by modules + brand config.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2
+  foundation:
+    path: ../../packages/foundation
+  design_system:
+    path: ../../packages/design_system
+  shared:
+    path: ../../packages/shared
+  brands:
+    path: ../../packages/brands
+  module_auth:
+    path: ../../packages/modules/module_auth
+  module_home:
+    path: ../../packages/modules/module_home
+  module_profile:
+    path: ../../packages/modules/module_profile
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:foundation/foundation.dart';
+import 'package:module_profile/src/application/usecases/load_profile_use_case.dart';
+
+void main() {
+  test('returns summary based on app config', () {
+    final useCase = LoadProfileUseCase(
+      appConfig: const AppConfig(
+        appName: 'Consumer',
+        env: AppEnv.dev,
+        apiConfig: ApiConfig(baseUrl: 'https://example.com'),
+        featureFlags: FeatureFlags(
+          enablePayment: true,
+          enableSubscription: true,
+          enableMedication: false,
+          enableDietarySupplements: false,
+        ),
+        analyticsConfig: AnalyticsConfig(enabled: true, provider: 'firebase'),
+        brandConfig: BrandConfig(
+          brandId: 'consumer',
+          brandName: 'Life Consumer',
+          seedColor: Colors.blue,
+        ),
+        enabledModules: <String>['module_auth', 'module_home', 'module_profile'],
+      ),
+    );
+
+    final summary = useCase.execute();
+
+    expect(summary.brandName, 'Life Consumer');
+    expect(summary.featureCount, 2);
+  });
+}
