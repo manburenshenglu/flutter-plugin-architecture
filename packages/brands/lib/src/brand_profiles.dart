@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foundation/foundation.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  按品牌与环境生成应用配置，统一管理模块开关、品牌信息和 API 地址。
+
 class BrandProfiles {
   const BrandProfiles._();
 
@@ -9,7 +13,10 @@ class BrandProfiles {
       appName: 'Consumer App',
       env: env,
       apiConfig: ApiConfig(baseUrl: _apiByEnv(env, consumer: true)),
-      analyticsConfig: const AnalyticsConfig(enabled: true, provider: 'firebase'),
+      analyticsConfig: const AnalyticsConfig(
+        enabled: true,
+        provider: 'firebase',
+      ),
       brandConfig: const BrandConfig(
         brandId: 'consumer',
         brandName: 'Life Consumer',
@@ -34,7 +41,10 @@ class BrandProfiles {
       appName: 'Doctor App',
       env: env,
       apiConfig: ApiConfig(baseUrl: _apiByEnv(env, consumer: false)),
-      analyticsConfig: const AnalyticsConfig(enabled: true, provider: 'mixpanel'),
+      analyticsConfig: const AnalyticsConfig(
+        enabled: true,
+        provider: 'mixpanel',
+      ),
       brandConfig: const BrandConfig(
         brandId: 'doctor',
         brandName: 'Life Doctor',
@@ -46,10 +56,7 @@ class BrandProfiles {
         enableMedication: true,
         enableDietarySupplements: false,
       ),
-      enabledModules: const <String>[
-        'module_auth',
-        'module_home',
-      ],
+      enabledModules: const <String>['module_auth', 'module_home'],
     );
   }
 

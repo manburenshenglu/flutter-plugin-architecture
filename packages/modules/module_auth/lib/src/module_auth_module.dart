@@ -10,6 +10,10 @@ import 'domain/repositories/auth_repository.dart';
 import 'presentation/controllers/auth_controller.dart';
 import 'presentation/pages/login_page.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  认证业务模块，负责声明模块元数据、注册依赖、路由和会话能力。
+
 class ModuleAuth implements AppModule, ModuleCapabilityProvider {
   @override
   String get moduleName => 'module_auth';

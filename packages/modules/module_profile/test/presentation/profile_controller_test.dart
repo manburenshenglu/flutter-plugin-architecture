@@ -4,6 +4,10 @@ import 'package:foundation/foundation.dart';
 import 'package:module_profile/src/application/usecases/load_profile_use_case.dart';
 import 'package:module_profile/src/presentation/controllers/profile_controller.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  资料控制器测试，验证初始化后可加载资料摘要。
+
 void main() {
   test('loads profile summary on init', () {
     const config = AppConfig(

@@ -7,6 +7,10 @@ import 'package:module_auth/src/application/usecases/login_use_case.dart';
 import 'package:module_auth/src/domain/repositories/auth_repository.dart';
 import 'package:module_auth/src/presentation/controllers/auth_controller.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  测试用认证仓储桩，固定返回登录失败结果。
+
 class _FailAuthRepository implements AuthRepository {
   @override
   Future<bool> login({

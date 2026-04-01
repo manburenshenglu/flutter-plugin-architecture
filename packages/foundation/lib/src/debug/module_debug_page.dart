@@ -4,6 +4,10 @@ import '../app_bootstrap/capability/capability_registry.dart';
 import '../app_bootstrap/module_registry.dart';
 import '../app_config/app_config.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  模块调试页，集中展示配置、模块、路由与能力注册信息。
+
 class ModuleDebugPage extends StatelessWidget {
   const ModuleDebugPage({
     super.key,

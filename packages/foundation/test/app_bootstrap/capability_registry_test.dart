@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foundation/foundation.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  测试用能力类型，占位用于验证能力重复注册告警。
+
 class _CapA {
   const _CapA();
 }

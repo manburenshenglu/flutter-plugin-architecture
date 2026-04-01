@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  设计令牌集合，统一定义间距、圆角、动效和文本样式常量。
+
 abstract final class AppTokens {
   static const double spacingXs = 8;
   static const double spacingSm = 12;

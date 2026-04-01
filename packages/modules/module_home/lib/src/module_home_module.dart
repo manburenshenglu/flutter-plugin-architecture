@@ -7,6 +7,10 @@ import 'application/usecases/load_home_entries_use_case.dart';
 import 'presentation/controllers/home_controller.dart';
 import 'presentation/pages/home_page.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  首页业务模块，负责首页路由声明与首页相关依赖注册。
+
 class ModuleHome implements AppModule {
   @override
   String get moduleName => 'module_home';

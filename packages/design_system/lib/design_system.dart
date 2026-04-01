@@ -1,3 +1,6 @@
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  design_system 包对外导出文件，统一暴露通用组件与主题能力。
 
 export 'src/components/app_button.dart';
 export 'src/components/app_empty_state.dart';

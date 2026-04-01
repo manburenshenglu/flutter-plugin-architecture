@@ -5,6 +5,10 @@ import 'package:shared/shared.dart';
 import '../../application/usecases/login_use_case.dart';
 import '../../application/services/auth_session_service.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  登录流程控制器，负责提交登录、维护状态并处理登录后的路由跳转。
+
 class AuthController extends GetxController {
   AuthController({
     required LoginUseCase loginUseCase,

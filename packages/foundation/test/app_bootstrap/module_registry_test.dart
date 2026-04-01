@@ -4,6 +4,10 @@ import 'package:foundation/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  测试用模块桩实现，用于构造模块依赖校验场景。
+
 class _FakeModule implements AppModule {
   _FakeModule({required this.name, required this.descriptorValue});
 

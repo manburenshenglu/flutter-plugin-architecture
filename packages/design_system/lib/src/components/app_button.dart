@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  通用按钮组件，封装全宽按钮和加载中禁用态。
+
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,

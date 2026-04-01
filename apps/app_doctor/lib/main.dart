@@ -8,6 +8,10 @@ import 'package:module_home/module_home.dart';
 import 'package:module_profile/module_profile.dart';
 import 'package:shared/shared.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  应用根组件，负责组装 GetMaterialApp、挂载模块路由并注入调试页面。
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

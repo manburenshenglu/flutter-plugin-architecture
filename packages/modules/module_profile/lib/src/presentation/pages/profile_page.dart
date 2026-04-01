@@ -4,6 +4,10 @@ import 'package:get/get.dart';
 
 import '../controllers/profile_controller.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  个人资料页面组件，展示品牌、埋点和功能统计信息。
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 

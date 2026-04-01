@@ -1,3 +1,7 @@
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  能力注册中心，负责能力登记、查询及重复注册告警记录。
+
 class CapabilityRegistry {
   final Map<Type, Object> _capabilities = <Type, Object>{};
   final Map<Type, String> _capabilityOwners = <Type, String>{};

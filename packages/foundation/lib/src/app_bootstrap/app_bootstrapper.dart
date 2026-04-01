@@ -7,6 +7,10 @@ import 'app_module.dart';
 import 'capability/capability_registry.dart';
 import 'module_registry.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  应用启动编排器，负责初始化核心依赖并完成模块注册。
+
 class AppBootstrapper {
   AppBootstrapper._();
 

@@ -5,6 +5,10 @@ import 'package:shared/shared.dart';
 
 import '../controllers/home_controller.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  首页展示组件，负责渲染入口卡片与页面跳转操作。
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 

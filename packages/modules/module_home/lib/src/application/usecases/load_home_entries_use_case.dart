@@ -2,6 +2,10 @@ import 'package:foundation/foundation.dart';
 
 import '../../domain/entities/home_entry.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  首页数据组装用例，按配置与功能开关生成展示条目。
+
 class LoadHomeEntriesUseCase {
   LoadHomeEntriesUseCase({required AppConfig appConfig})
     : _appConfig = appConfig;

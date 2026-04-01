@@ -8,6 +8,10 @@ import 'application/usecases/load_profile_use_case.dart';
 import 'presentation/controllers/profile_controller.dart';
 import 'presentation/pages/profile_page.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  个人资料业务模块，负责资料页路由、依赖和资料能力注册。
+
 class ModuleProfile implements AppModule, ModuleCapabilityProvider {
   @override
   String get moduleName => 'module_profile';

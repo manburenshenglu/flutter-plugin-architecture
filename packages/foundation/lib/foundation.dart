@@ -1,3 +1,7 @@
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  foundation 包对外导出文件，统一暴露启动、配置与依赖注入能力。
+
 export 'src/app_bootstrap/app_bootstrapper.dart';
 export 'src/app_bootstrap/app_module.dart';
 export 'src/app_bootstrap/capability/capability_registry.dart';

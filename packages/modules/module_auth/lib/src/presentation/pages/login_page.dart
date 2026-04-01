@@ -4,6 +4,10 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  登录页面入口组件，承载账号密码输入与登录动作。
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 

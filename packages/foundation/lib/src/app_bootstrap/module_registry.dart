@@ -7,6 +7,10 @@ import 'capability/capability_registry.dart';
 import 'capability/module_capability_provider.dart';
 import 'module_descriptor.dart';
 
+/// @author xiejl
+/// @date 2026/4/1 15:09
+/// @description  模块注册中心，负责依赖校验、模块初始化和路由汇总。
+
 class ModuleRegistry {
   ModuleRegistry({required List<AppModule> modules}) : _modules = modules;
 
