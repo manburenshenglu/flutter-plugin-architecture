@@ -1,6 +1,6 @@
 # Flutter Plugin Architecture Monorepo
 
-面向多 App（矩阵包/多品牌/多场景）孵化的 Flutter 插件化架构仓库，让你快速通过插件化开发flutter app
+面向多 App（多品牌/多场景）孵化的，基于插件化架构的Flutter项目脚手架(模板)，非常适合矩阵包形式，让你快速通过插件化开发Flutter项目
 
 该仓库核心目标：
 - 在同一套基础设施下快速孵化新 App Shell(矩阵包)
