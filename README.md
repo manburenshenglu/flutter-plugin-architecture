@@ -47,7 +47,8 @@
 ```
 
 说明：
-- `apps/` 和 `packages/modules/` 下当前列出的目录仅用于示例说明，可根据实际项目进行新增、删减或替换。
+- <span style="color:red"><strong>`apps/` 和 `packages/modules/` 下当前列出的目录仅用于示例说明，可根据实际项目进行新增、删减或替换。</strong></span>
+> **⚠️ `apps/` 和 `packages/modules/` 下当前列出的目录仅用于示例说明，可根据实际项目进行app和module的新增、删减或替换。**
 
 ## 4. 启动链路（从 App 到模块装配）
 
@@ -668,7 +669,9 @@ final registry = await AppBootstrapper.bootstrap(
 1. 在品牌配置中将 `FeatureFlags.useXmlLoginApi` 设为 `true`。
 2. 保持其他接口继续使用 JSON API（Retrofit）不变。
 
-该项目中的XML部分是mock数据，你使用时必须替换为你真实接口字段！！！：
+<span style="color:red"><strong>该项目中的XML部分是mock数据，你使用时必须替换为你真实接口字段！！！</strong></span>
+> **⚠️ 该项目中的XML部分是mock数据，你使用时必须替换为你真实接口字段！！！**
+
 1. 替换 XML 请求地址：
    - 不使用临时 `'/auth/login'`。
    - 按真实后端路由替换（示例：`aaa/bbb/login`）。
