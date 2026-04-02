@@ -5,7 +5,6 @@ import 'package:foundation/foundation.dart';
 import 'package:get/get.dart';
 import 'package:module_auth/module_auth.dart';
 import 'package:module_home/module_home.dart';
-import 'package:module_profile/module_profile.dart';
 import 'package:shared/shared.dart';
 
 /// @author xiejl
@@ -19,7 +18,6 @@ Future<void> main() async {
   final moduleCatalog = <String, AppModule>{
     'module_auth': ModuleAuth(),
     'module_home': ModuleHome(),
-    'module_profile': ModuleProfile(),
   };
   final modules = ModuleSelector.select(
     catalog: moduleCatalog,

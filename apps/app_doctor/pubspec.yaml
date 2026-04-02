@@ -23,8 +23,6 @@ dependencies:
     path: ../../packages/modules/module_auth
   module_home:
     path: ../../packages/modules/module_home
-  module_profile:
-    path: ../../packages/modules/module_profile
 
 dev_dependencies:
   flutter_test:
