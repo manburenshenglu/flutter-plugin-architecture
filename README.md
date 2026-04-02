@@ -46,6 +46,9 @@
 └── tooling/               # 脚手架/契约校验/IDE 修复脚本
 ```
 
+说明：
+- `apps/` 和 `packages/modules/` 下当前列出的目录仅用于示例说明，可根据实际项目进行新增、删减或替换。
+
 ## 4. 启动链路（从 App 到模块装配）
 
 以 `apps/app_consumer/lib/main.dart` 为例，启动流程如下：
@@ -199,6 +202,15 @@
 用法：
 - App 将 `ModuleAuth()` 放入 `moduleCatalog`
 - 若 `enabledModules` 含 `module_auth`，则自动加载对应路由和依赖
+
+协议说明（JSON + XML 混用）：
+- `module_auth` 支持“同模块混合协议”：
+  - 登录接口可走 XML（历史遗留接口）。
+  - 其余接口继续走 JSON。
+- 协议差异仅在 `data` 层处理，`domain/presentation` 不感知 XML/JSON。
+- 当前通过 `FeatureFlags.useXmlLoginApi` 控制登录是否走 XML：
+  - `false`：走原有 JSON 登录链路。
+  - `true`：走 XML 登录链路（`dio + xml2json + LoginXmlParser`）。
 
 ### 8.2 `module_home`
 
@@ -641,3 +653,31 @@ final registry = await AppBootstrapper.bootstrap(
 跳过 refresh（例如 refresh 接口本身）：
 - 对特定请求设置 `requestOptions.extra['__skip_refresh__'] = true`。
 - 设置后即使返回 `401` 也不会进入自动刷新逻辑。
+
+### 17.7 支持JSON和XML数据协议上下行的服务端接口的混合使用
+
+适用场景：
+- 模块内接口是 JSON，还有少量历史接口是 XML，如：登陆接口是 XML。
+
+举个例子-假设登陆接口是XML：
+- 登录接口支持 XML 分支（`AuthRemoteDataSource._loginByXml`）。
+- XML 响应通过 `LoginXmlParser`（`xml2json`）解析为 `LoginResponseDto`。
+- 代码中已明确标注 `TODO`，提示当前 URL/字段为临时占位。
+
+如何启用 XML 调用登陆接口：
+1. 在品牌配置中将 `FeatureFlags.useXmlLoginApi` 设为 `true`。
+2. 保持其他接口继续使用 JSON API（Retrofit）不变。
+
+该项目中的XML部分是mock数据，你使用时必须替换为你真实接口字段！！！：
+1. 替换 XML 请求地址：
+   - 不使用临时 `'/auth/login'`。
+   - 按真实后端路由替换（示例：`aaa/bbb/login`）。
+2. 替换 XML 请求体结构：
+   - 不使用临时 `<login><account>...`。
+   - 按真实 `PhoneLoginOnPack` 字段构造（如 `PhoneNumber`、`PassWord`、`DeviceID`、`IsValid` 等）。
+3. 替换 XML 响应解析字段：
+   - 不使用通用候选字段（`success/code/msg`）。
+   - 按真实字段解析与判定（如 `ReturnFlag`、`ReturnText`、`MemberID`、`PortPassword`）。
+   - 成功判定建议遵循真实协议规则（如 `ReturnFlag` 以 `#SUCCESS#` 开头）。
+4. 使用真实报文回归：
+   - 至少覆盖：登录成功、账号/密码错误、风控/封禁、字段缺失。

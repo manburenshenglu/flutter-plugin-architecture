@@ -1,5 +1,3 @@
-import 'package:foundation/foundation.dart';
-
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 
@@ -26,7 +24,7 @@ class RemoteAuthRepository implements AuthRepository {
         password: password,
       );
       return response.success;
-    } on DioException {
+    } on Exception {
       if (fallbackRepository != null) {
         return fallbackRepository!.login(account: account, password: password);
       }

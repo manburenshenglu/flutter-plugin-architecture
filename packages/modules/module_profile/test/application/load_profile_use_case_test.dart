@@ -19,6 +19,7 @@ void main() {
           enableSubscription: true,
           enableMedication: false,
           enableDietarySupplements: false,
+          useXmlLoginApi: false,
         ),
         analyticsConfig: AnalyticsConfig(enabled: true, provider: 'firebase'),
         brandConfig: BrandConfig(

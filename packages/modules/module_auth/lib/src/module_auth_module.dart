@@ -9,13 +9,14 @@ import 'data/datasources/auth_remote_data_source.dart';
 import 'data/repositories/fake_auth_repository.dart';
 import 'data/repositories/remote_auth_repository.dart';
 import 'data/remote/apis/auth_api.dart';
+import 'data/remote/parsers/login_xml_parser.dart';
 import 'domain/repositories/auth_repository.dart';
 import 'presentation/controllers/auth_controller.dart';
 import 'presentation/pages/login_page.dart';
 
 /// @author xiejl
 /// @date 2026/4/1 15:09
-/// @description  认证业务模块，负责声明模块元数据、注册依赖、路由和会话能力。
+/// @description  登陆业务模块，负责声明模块元数据、注册依赖、路由和会话能力。
 
 class ModuleAuth implements AppModule, ModuleCapabilityProvider {
   @override
@@ -55,9 +56,17 @@ class ModuleAuth implements AppModule, ModuleCapabilityProvider {
     if (!sl.isRegistered<AuthApi>()) {
       sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<Dio>()));
     }
+    if (!sl.isRegistered<LoginXmlParser>()) {
+      sl.registerLazySingleton<LoginXmlParser>(() => const LoginXmlParser());
+    }
     if (!sl.isRegistered<AuthRemoteDataSource>()) {
       sl.registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSource(sl<AuthApi>()),
+        () => AuthRemoteDataSource(
+          jsonApi: sl<AuthApi>(),
+          dio: sl<Dio>(),
+          appConfig: config,
+          loginXmlParser: sl<LoginXmlParser>(),
+        ),
       );
     }
     if (!sl.isRegistered<AuthRepository>()) {

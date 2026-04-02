@@ -62,6 +62,7 @@ void main() {
             enableSubscription: false,
             enableMedication: false,
             enableDietarySupplements: false,
+            useXmlLoginApi: false,
           ),
           analyticsConfig: AnalyticsConfig(enabled: false, provider: 'none'),
           brandConfig: BrandConfig(

@@ -8,10 +8,12 @@ class FeatureFlags {
     required this.enableSubscription,
     required this.enableMedication,
     required this.enableDietarySupplements,
+    this.useXmlLoginApi = false,
   });
 
   final bool enablePayment;
   final bool enableSubscription;
   final bool enableMedication;
   final bool enableDietarySupplements;
+  final bool useXmlLoginApi;
 }

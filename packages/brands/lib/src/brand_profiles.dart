@@ -8,6 +8,7 @@ import 'package:foundation/foundation.dart';
 class BrandProfiles {
   const BrandProfiles._();
 
+  /// app：consumer
   static AppConfig consumer({required AppEnv env}) {
     return AppConfig(
       appName: 'Consumer App',
@@ -27,6 +28,7 @@ class BrandProfiles {
         enableSubscription: true,
         enableMedication: false,
         enableDietarySupplements: true,
+        useXmlLoginApi: false,
       ),
       enabledModules: const <String>[
         'module_auth',
@@ -36,6 +38,7 @@ class BrandProfiles {
     );
   }
 
+  /// app：doctor
   static AppConfig doctor({required AppEnv env}) {
     return AppConfig(
       appName: 'Doctor App',
@@ -55,6 +58,7 @@ class BrandProfiles {
         enableSubscription: false,
         enableMedication: true,
         enableDietarySupplements: false,
+        useXmlLoginApi: false,
       ),
       enabledModules: const <String>['module_auth', 'module_home'],
     );
