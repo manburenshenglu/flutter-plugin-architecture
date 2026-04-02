@@ -5,7 +5,7 @@ packages:
   - packages/modules/*
 
 scripts:
-  bootstrap: melos bootstrap
+  bootstrap:repo: melos bootstrap
   analyze: melos exec -- flutter analyze
   test: melos exec -- flutter test
   format: melos exec -- dart format .
@@ -15,4 +15,4 @@ scripts:
   repair:ide: ./tooling/repair_flutter_ide.sh
   contract:check: ./tooling/check_contract_compatibility.sh
   contract:update-lock: ./tooling/update_contract_lock.sh
-  ci: melos run bootstrap && melos run contract:check && melos run analyze && melos run test
+  ci: melos bootstrap && melos run contract:check && melos run analyze && melos run test

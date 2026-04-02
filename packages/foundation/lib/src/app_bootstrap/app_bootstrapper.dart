@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import '../app_config/app_config.dart';
 import '../di/service_locator.dart';
 import '../network/auth/auth_refresher.dart';
-import '../network/auth/default_token_store.dart';
 import '../network/auth/noop_auth_refresher.dart';
 import '../network/auth/noop_unauthorized_handler.dart';
+import '../network/auth/secure_token_store.dart';
 import '../network/auth/token_store.dart';
 import '../network/auth/unauthorized_handler.dart';
 import '../network/dio_client_factory.dart';
@@ -58,7 +58,7 @@ class AppBootstrapper {
   }) {
     sl.registerSingleton<AppConfig>(config);
     sl.registerLazySingleton<TokenStore>(
-      () => tokenStore ?? DefaultTokenStore(),
+      () => tokenStore ?? SecureTokenStore(),
     );
     sl.registerLazySingleton<AuthRefresher>(
       () => authRefresher ?? NoopAuthRefresher(),

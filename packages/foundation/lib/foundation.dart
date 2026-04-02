@@ -21,6 +21,7 @@ export 'src/network/auth/auth_refresher.dart';
 export 'src/network/auth/default_token_store.dart';
 export 'src/network/auth/noop_auth_refresher.dart';
 export 'src/network/auth/noop_unauthorized_handler.dart';
+export 'src/network/auth/secure_token_store.dart';
 export 'src/network/auth/token_store.dart';
 export 'src/network/auth/unauthorized_handler.dart';
 export 'src/network/dio_client_factory.dart';

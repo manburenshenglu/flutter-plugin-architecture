@@ -253,7 +253,7 @@
 ### 10.1 安装依赖
 
 ```bash
-melos run bootstrap
+melos bootstrap
 ```
 
 ### 10.2 运行现有 App
@@ -375,7 +375,7 @@ final registry = await AppBootstrapper.bootstrap(
 ### 11.4 新增孵化 App 后的验收清单
 
 ```bash
-melos run bootstrap
+melos bootstrap
 melos run analyze
 melos run test
 ```
@@ -519,7 +519,7 @@ if (profileReadable != null) {
 ## 15. 常用命令速查
 
 ```bash
-melos run bootstrap
+melos bootstrap
 melos run analyze
 melos run test
 melos run format
@@ -616,7 +616,10 @@ final registry = await AppBootstrapper.bootstrap(
 - `AuthRefresher`：`401` 时刷新 token
 - `UnauthorizedHandler`：刷新失败后的全局收敛动作
 
-如果暂未接入真实实现，可不传，系统会使用默认 no-op 实现（不会崩溃，但不会自动刷新成功）。
+如果暂未接入真实实现，可不传，系统默认使用 `SecureTokenStore + NoopAuthRefresher + NoopUnauthorizedHandler`：
+- token 会写入系统安全存储（Keychain/Keystore）。
+- 未接入真实 refresh 逻辑时，`401` 不会刷新成功，但应用不会崩溃。
+- 测试场景可显式传入 `DefaultTokenStore()` 覆盖默认实现。
 
 ### 17.6 拦截器约定（AuthInterceptor / LoggingInterceptor）
 

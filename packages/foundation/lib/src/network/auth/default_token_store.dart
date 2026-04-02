@@ -8,10 +8,10 @@ class DefaultTokenStore implements TokenStore {
   String? _refreshToken;
 
   @override
-  String? readAccessToken() => _accessToken;
+  Future<String?> readAccessToken() async => _accessToken;
 
   @override
-  String? readRefreshToken() => _refreshToken;
+  Future<String?> readRefreshToken() async => _refreshToken;
 
   @override
   Future<void> writeAccessToken(String token) async {

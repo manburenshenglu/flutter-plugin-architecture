@@ -34,7 +34,7 @@ class AuthInterceptor extends QueuedInterceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = _tokenStore.readAccessToken();
+    final token = await _tokenStore.readAccessToken();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }
@@ -89,9 +89,7 @@ class AuthInterceptor extends QueuedInterceptor {
       return refreshing;
     }
 
-    final future = _authRefresher.refreshToken(
-      refreshToken: _tokenStore.readRefreshToken(),
-    );
+    final future = _refreshWithLatestRefreshToken();
     _refreshingFuture = future;
     future.whenComplete(() {
       if (identical(_refreshingFuture, future)) {
@@ -99,6 +97,11 @@ class AuthInterceptor extends QueuedInterceptor {
       }
     });
     return future;
+  }
+
+  Future<RefreshedToken?> _refreshWithLatestRefreshToken() async {
+    final refreshToken = await _tokenStore.readRefreshToken();
+    return _authRefresher.refreshToken(refreshToken: refreshToken);
   }
 
   RequestOptions _buildRetriedRequest(RequestOptions origin) {
