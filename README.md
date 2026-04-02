@@ -523,6 +523,7 @@ melos run bootstrap
 melos run analyze
 melos run test
 melos run format
+melos run gen
 melos run contract:check
 melos run contract:update-lock
 melos run scaffold:app
@@ -539,3 +540,101 @@ melos run ci
 - 品牌差异统一放 `brands` 配置层
 - 每次变更前后执行：导入检查、依赖关系检查、双 Demo App 启动验证
 
+## 17. 网络与代码生成实践（Dio + Retrofit）
+
+### 17.1 全局 Dio 与 Token 失效处理
+
+- 全局 `Dio` 由 `foundation` 统一注册与注入（`AppBootstrapper -> DioClientFactory`）。
+- `AuthInterceptor` 统一处理：
+  - 请求前自动注入 `Authorization`。
+  - `401` 自动触发 refresh。
+  - refresh 成功后重放原请求。
+  - refresh 失败后清 token 并调用 `UnauthorizedHandler`（如跳转登录页）。
+- 业务模块只依赖注入后的 `Dio/AuthApi`，不在模块里重复写 token 失效逻辑。
+
+### 17.2 DTO 标准写法
+
+```dart
+import 'package:json_annotation/json_annotation.dart';
+
+part 'test_dto.g.dart';
+
+@JsonSerializable()
+class TestDto {
+  const TtDto(this.a);
+
+  final String a;
+
+  factory TestDto.fromJson(Map<String, dynamic> json) => _$TestDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$TestDtoToJson(this);
+}
+```
+
+注意：
+- `part 'xxx.g.dart';` 必须与文件名一一对应。
+- `fromJson/toJson` 可以先写声明，生成函数由 `build_runner` 写入 `*.g.dart`。
+
+### 17.3 代码生成命令
+
+```bash
+melos run gen
+```
+
+说明：
+- `melos run gen` 会调用 `./tooling/run_codegen.sh`。
+- 脚本会扫描 `apps/`、`packages/` 下含 `build_runner` 的包并执行生成。
+- 脚本兼容无 `rg` 环境（会自动回退到 `find`）。
+
+### 17.4 常见报错与排查
+
+1. `RUNNING (in 0 packages)`
+- 说明当前 melos 过滤未命中包；优先使用仓库内 `melos run gen`（已内置扫描逻辑）。
+
+2. `xxx.g.dart must be included as a part directive`
+- 在源文件补上 `part 'xxx.g.dart';`，并确保与文件名一致。
+
+3. 生成后 IDE 仍不跳转定义
+- 执行 `melos run repair:ide`，必要时 `Invalidate Caches / Restart`。
+
+### 17.5 在 App 启动时注入 Token 刷新依赖
+
+可在 `main.dart` 的启动编排处传入实现：
+
+```dart
+final registry = await AppBootstrapper.bootstrap(
+  config: config,
+  modules: modules,
+  tokenStore: MyTokenStore(), // 建议接 secure storage
+  authRefresher: MyAuthRefresher(), // 调用 refresh token 接口
+  unauthorizedHandler: MyUnauthorizedHandler(), // 清会话并跳登录
+  enableAutoRefresh: true,
+);
+```
+
+接口说明（均在 `foundation` 导出）：
+- `TokenStore`：读写 `accessToken/refreshToken`
+- `AuthRefresher`：`401` 时刷新 token
+- `UnauthorizedHandler`：刷新失败后的全局收敛动作
+
+如果暂未接入真实实现，可不传，系统会使用默认 no-op 实现（不会崩溃，但不会自动刷新成功）。
+
+### 17.6 拦截器约定（AuthInterceptor / LoggingInterceptor）
+
+当前 `DioClientFactory` 的拦截器顺序：
+1. `AuthInterceptor`
+2. `LoggingInterceptor`（仅非 `prod` 环境）
+3. `extraInterceptors`（可根据你的业务按需追加）
+
+`AuthInterceptor` 关键行为：
+- `onRequest`：从 `TokenStore` 读取 token 并注入 `Authorization`。
+- `onError`：命中 `401` 且未重试时触发 refresh。
+- refresh 成功：更新 token 并重放原请求。
+- refresh 失败：清理 token 并调用 `UnauthorizedHandler`。
+
+防重试死循环：
+- 内部使用 `requestOptions.extra['__retry_after_refresh__'] = true` 标记重放请求。
+- 已带该标记的请求不会再次触发 refresh。
+
+跳过 refresh（例如 refresh 接口本身）：
+- 对特定请求设置 `requestOptions.extra['__skip_refresh__'] = true`。
+- 设置后即使返回 `401` 也不会进入自动刷新逻辑。

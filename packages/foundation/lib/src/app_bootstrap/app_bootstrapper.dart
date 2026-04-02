@@ -3,6 +3,13 @@ import 'package:get_it/get_it.dart';
 
 import '../app_config/app_config.dart';
 import '../di/service_locator.dart';
+import '../network/auth/auth_refresher.dart';
+import '../network/auth/default_token_store.dart';
+import '../network/auth/noop_auth_refresher.dart';
+import '../network/auth/noop_unauthorized_handler.dart';
+import '../network/auth/token_store.dart';
+import '../network/auth/unauthorized_handler.dart';
+import '../network/dio_client_factory.dart';
 import 'app_module.dart';
 import 'capability/capability_registry.dart';
 import 'module_registry.dart';
@@ -17,9 +24,20 @@ class AppBootstrapper {
   static Future<ModuleRegistry> bootstrap({
     required AppConfig config,
     required List<AppModule> modules,
+    TokenStore? tokenStore,
+    AuthRefresher? authRefresher,
+    UnauthorizedHandler? unauthorizedHandler,
+    bool enableAutoRefresh = true,
   }) async {
     await _resetIfNeeded(serviceLocator);
-    _registerCore(serviceLocator, config);
+    _registerCore(
+      serviceLocator,
+      config,
+      tokenStore: tokenStore,
+      authRefresher: authRefresher,
+      unauthorizedHandler: unauthorizedHandler,
+      enableAutoRefresh: enableAutoRefresh,
+    );
 
     final capabilityRegistry = CapabilityRegistry();
     serviceLocator.registerSingleton<CapabilityRegistry>(capabilityRegistry);
@@ -30,16 +48,31 @@ class AppBootstrapper {
     return registry;
   }
 
-  static void _registerCore(GetIt sl, AppConfig config) {
+  static void _registerCore(
+    GetIt sl,
+    AppConfig config, {
+    TokenStore? tokenStore,
+    AuthRefresher? authRefresher,
+    UnauthorizedHandler? unauthorizedHandler,
+    bool enableAutoRefresh = true,
+  }) {
     sl.registerSingleton<AppConfig>(config);
+    sl.registerLazySingleton<TokenStore>(
+      () => tokenStore ?? DefaultTokenStore(),
+    );
+    sl.registerLazySingleton<AuthRefresher>(
+      () => authRefresher ?? NoopAuthRefresher(),
+    );
+    sl.registerLazySingleton<UnauthorizedHandler>(
+      () => unauthorizedHandler ?? NoopUnauthorizedHandler(),
+    );
     sl.registerLazySingleton<Dio>(
-      () => Dio(
-        BaseOptions(
-          baseUrl: config.apiConfig.baseUrl,
-          connectTimeout: Duration(
-            milliseconds: config.apiConfig.connectTimeoutMs,
-          ),
-        ),
+      () => DioClientFactory.create(
+        config,
+        tokenStore: sl<TokenStore>(),
+        authRefresher: sl<AuthRefresher>(),
+        unauthorizedHandler: sl<UnauthorizedHandler>(),
+        enableAutoRefresh: enableAutoRefresh,
       ),
     );
   }

@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.9.0
+  pretty_dio_logger: ^1.4.0
   get: ^4.7.2
   get_it: ^8.2.0
 

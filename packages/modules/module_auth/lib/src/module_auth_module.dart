@@ -5,7 +5,10 @@ import 'package:shared/shared.dart';
 
 import 'application/usecases/login_use_case.dart';
 import 'application/services/auth_session_service.dart';
+import 'data/datasources/auth_remote_data_source.dart';
 import 'data/repositories/fake_auth_repository.dart';
+import 'data/repositories/remote_auth_repository.dart';
+import 'data/remote/apis/auth_api.dart';
 import 'domain/repositories/auth_repository.dart';
 import 'presentation/controllers/auth_controller.dart';
 import 'presentation/pages/login_page.dart';
@@ -49,8 +52,21 @@ class ModuleAuth implements AppModule, ModuleCapabilityProvider {
     if (!sl.isRegistered<AuthSessionService>()) {
       sl.registerLazySingleton<AuthSessionService>(() => AuthSessionService());
     }
+    if (!sl.isRegistered<AuthApi>()) {
+      sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<Dio>()));
+    }
+    if (!sl.isRegistered<AuthRemoteDataSource>()) {
+      sl.registerLazySingleton<AuthRemoteDataSource>(
+        () => AuthRemoteDataSource(sl<AuthApi>()),
+      );
+    }
     if (!sl.isRegistered<AuthRepository>()) {
-      sl.registerLazySingleton<AuthRepository>(() => FakeAuthRepository());
+      sl.registerLazySingleton<AuthRepository>(
+        () => RemoteAuthRepository(
+          remoteDataSource: sl<AuthRemoteDataSource>(),
+          fallbackRepository: FakeAuthRepository(),
+        ),
+      );
     }
     if (!sl.isRegistered<LoginUseCase>()) {
       sl.registerFactory<LoginUseCase>(
